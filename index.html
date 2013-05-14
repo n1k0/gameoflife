@@ -12,6 +12,7 @@
   <textarea id="out"></textarea>
   <input type="button" id="start" value="start" onclick="start()">
   <input type="button" id="stop" value="stop" onclick="stop()" disabled>
+  <input type="button" id="distribute" value="random" onclick="distribute()">
   <script src="vendor/mocha.js"></script>
   <script src="vendor/chai.js"></script>
   <script>mocha.setup('bdd')</script>
@@ -24,7 +25,7 @@
         startBt = document.getElementById('start'),
         stopBt = document.getElementById('stop');
 
-    src.value = [
+    var defaults = src.value = [
       '........',
       '........',
       '........',
@@ -47,6 +48,14 @@
       clearInterval(interval);
       startBt.disabled = false;
       stopBt.disabled = true;
+    }
+
+    function distribute() {
+      src.value = defaults.split('\n').map(function(row) {
+        return row.split('').map(function(cell) {
+          return !!Math.round(Math.random()) ? 'x' : '.';
+        }).join('');
+      }).join('\n');
     }
   </script>
 </body>
