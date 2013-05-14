@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Talkilla unit tests</title>
+  <link rel="stylesheet" media="all" href="vendor/mocha.css">
+  <style>textarea{width:100%; height:160px;font-size:20pt;line-height:.65em;}</style>
+</head>
+<body>
+  <div id="mocha"></div>
+  <div id="messages"></div>
+  <textarea id="out"></textarea>
+  <input type="button" id="start" value="start" onclick="start()">
+  <input type="button" id="stop" value="stop" onclick="stop()" disabled>
+  <script src="vendor/mocha.js"></script>
+  <script src="vendor/chai.js"></script>
+  <script>mocha.setup('bdd')</script>
+  <script src="gol.js"></script>
+  <script src="test.js"></script>
+  <script>
+    mocha.run();
+    var interval,
+        src = document.getElementById('out'),
+        startBt = document.getElementById('start'),
+        stopBt = document.getElementById('stop');
+
+    src.value = [
+      '........',
+      '........',
+      '........',
+      '........',
+      '........',
+      '........',
+      '........',
+      '........'
+    ].join('\n');
+
+    function start() {
+      interval = setInterval(function() {
+        src.value = GoL.grid(src.value.split('\n')).join('\n');
+      }, 250);
+      startBt.disabled = true;
+      stopBt.disabled = false;
+    }
+
+    function stop() {
+      clearInterval(interval);
+      startBt.disabled = false;
+      stopBt.disabled = true;
+    }
+  </script>
+</body>
+</html>
